@@ -51,25 +51,39 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_eip" "nat" {
-  count = length(local.azs)
+  count = 1  # Fix: was length(local.azs), should be 1 for single NAT
 
   domain = "vpc"
 
   tags = {
-    Name = "${var.cluster_name}-nat-${local.azs[count.index]}"
+    Name = "${var.cluster_name}-nat"
   }
 
   depends_on = [aws_internet_gateway.main]
 }
 
-resource "aws_nat_gateway" "main" {
-  count = length(local.azs)
+## For Production
+# resource "aws_nat_gateway" "main" {
+#   count = length(local.azs)
+#
+#   allocation_id = aws_eip.nat[count.index].id
+#   subnet_id     = aws_subnet.public[count.index].id
+#
+#   tags = {
+#     Name = "${var.cluster_name}-nat-${local.azs[count.index]}"
+#   }
+#
+#   depends_on = [aws_internet_gateway.main]
+# }
 
-  allocation_id = aws_eip.nat[count.index].id
-  subnet_id     = aws_subnet.public[count.index].id
+resource "aws_nat_gateway" "main" {
+  count = 1  # Change from length(local.azs)
+
+  allocation_id = aws_eip.nat[0].id
+  subnet_id     = aws_subnet.public[0].id
 
   tags = {
-    Name = "${var.cluster_name}-nat-${local.azs[count.index]}"
+    Name = "${var.cluster_name}-nat"
   }
 
   depends_on = [aws_internet_gateway.main]
@@ -82,7 +96,7 @@ resource "aws_route_table" "private" {
 
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.main[count.index].id
+    nat_gateway_id = aws_nat_gateway.main[0].id  # Fix: was [count.index], should be [0]
   }
 
   tags = {

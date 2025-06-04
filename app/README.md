@@ -54,11 +54,6 @@ curl http://localhost:8080/api/status
   docker push 081578102896.dkr.ecr.us-east-1.amazonaws.com/lumino-backend:latest
 ```
 
-# Update Deployment
-```bash
-  kubectl rollout restart deployment lumino-backend
-```
-
 ## Kubernetes Deployment
 
 The app is designed to work with Kubernetes health checks:

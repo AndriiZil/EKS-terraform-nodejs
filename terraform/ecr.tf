@@ -85,39 +85,3 @@ resource "aws_ecr_repository_policy" "app_repository_policy" {
     ]
   })
 }
-
-# Policy to allow EKS nodes to pull from ECR
-resource "aws_iam_policy" "ecr_policy" {
-  name        = "${var.cluster_name}-ecr-policy"
-  description = "Policy for EKS nodes to access ECR"
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "ecr:BatchCheckLayerAvailability",
-          "ecr:GetDownloadUrlForLayer",
-          "ecr:BatchGetImage",
-          "ecr:DescribeRepositories",
-          "ecr:ListImages",
-          "ecr:DescribeImages"
-        ]
-        Resource = aws_ecr_repository.app_repository.arn
-      },
-      {
-        Effect = "Allow"
-        Action = [
-          "ecr:GetAuthorizationToken"
-        ]
-        Resource = "*"
-      }
-    ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "node_group_ecr_policy" {
-  policy_arn = aws_iam_policy.ecr_policy.arn
-  role       = aws_iam_role.eks_node_group.name
-}
