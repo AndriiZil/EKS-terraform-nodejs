@@ -72,24 +72,24 @@ aws eks --region us-east-1 update-kubeconfig --name my-eks-cluster
 
 3. Build and push your image
 ```bash
-docker build -t lumino-backend .
-aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin $(terraform output -raw ecr_registry_id).dkr.ecr.us-west-2.amazonaws.com
-docker tag lumino-backend:latest $(terraform output -raw ecr_repository_url):latest
-docker push $(terraform output -raw ecr_repository_url):latest
+  docker build -t lumino-backend .
+  aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin $(terraform output -raw ecr_registry_id).dkr.ecr.us-west-2.amazonaws.com
+  docker tag lumino-backend:latest $(terraform output -raw ecr_repository_url):latest
+  docker push $(terraform output -raw ecr_repository_url):latest
 ```
 
 4. Update the deployment YAML with actual values
 ```bash
-sed -i 's/ACCOUNT_ID/$(terraform output -raw ecr_registry_id)/g' example-deployment.yaml
-sed -i 's/REGION/us-west-2/g' example-deployment.yaml
+  sed -i 's/081578102896/$(terraform output -raw ecr_registry_id)/g' deployment.yaml
+  sed -i 's/REGION/us-east-1/g' deployment.yaml
 ```
 
 5. Deploy to Kubernetes
 ```bash
-kubectl apply -f example-deployment.yaml
+  kubectl apply -f deployment.yaml
 ```
 
 6. Check pods are running
 ```bash
-kubectl get pods -l app=lumino-backend
+  kubectl get pods -l app=lumino-backend
 ``` 
