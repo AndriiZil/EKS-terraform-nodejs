@@ -17,3 +17,20 @@
     curl http://$LB_URL/ready
     curl http://$LB_URL/api/status
 ```
+
+# PostgreSQL
+
+```bash
+  terraform plan
+  terraform apply
+
+  # Get RDS endpoint
+  terraform output rds_endpoint
+
+  # Encode and update the secret
+  echo -n 'my-eks-cluster-db.c03b3gbav8a4.us-east-1.rds.amazonaws.com' | base64
+  echo -n 'postgres' | base64
+
+  # Apply the secret
+  kubectl apply -f k8s/postgres-secret.yaml
+```

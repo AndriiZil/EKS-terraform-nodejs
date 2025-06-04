@@ -109,4 +109,31 @@ output "internet_gateway_id" {
 output "configure_kubectl" {
   description = "Configure kubectl: make sure you're logged in with the correct AWS profile and run the following command to update your kubeconfig"
   value       = "aws eks --region ${var.aws_region} update-kubeconfig --name ${var.cluster_name}"
+}
+
+# RDS Outputs
+output "rds_endpoint" {
+  description = "RDS instance endpoint"
+  value       = aws_db_instance.main.endpoint
+}
+
+output "rds_port" {
+  description = "RDS instance port"
+  value       = aws_db_instance.main.port
+}
+
+output "rds_database_name" {
+  description = "RDS database name"
+  value       = aws_db_instance.main.db_name
+}
+
+output "rds_username" {
+  description = "RDS master username"
+  value       = aws_db_instance.main.username
+  sensitive   = true
+}
+
+output "rds_security_group_id" {
+  description = "RDS security group ID"
+  value       = aws_security_group.rds.id
 } 

@@ -31,13 +31,13 @@ variable "node_group_instance_types" {
 variable "node_group_desired_size" {
   description = "Desired number of nodes in the node group"
   type        = number
-  default     = 2
+  default     = 1
 }
 
 variable "node_group_max_size" {
   description = "Maximum number of nodes in the node group"
   type        = number
-  default     = 4
+  default     = 2
 }
 
 variable "node_group_min_size" {
@@ -133,4 +133,71 @@ variable "allowed_principals" {
   description = "List of AWS principals allowed to access the repository"
   type        = list(string)
   default     = []
+}
+
+# RDS Variables
+variable "db_engine_version" {
+  description = "PostgreSQL engine version"
+  type        = string
+  default     = "17.4"
+}
+
+variable "db_instance_class" {
+  description = "RDS instance class"
+  type        = string
+  default     = "db.t3.micro"
+}
+
+variable "db_allocated_storage" {
+  description = "Initial allocated storage in gibibytes"
+  type        = number
+  default     = 20
+}
+
+variable "db_max_allocated_storage" {
+  description = "Maximum allocated storage for autoscaling"
+  type        = number
+  default     = 100
+}
+
+variable "db_storage_type" {
+  description = "Storage type for RDS instance"
+  type        = string
+  default     = "gp3"
+}
+
+variable "db_name" {
+  description = "Name of the database"
+  type        = string
+  default     = "postgres"
+}
+
+variable "db_username" {
+  description = "Username for the master DB user"
+  type        = string
+  default     = "postgres"
+}
+
+variable "db_password" {
+  description = "Password for the master DB user"
+  type        = string
+  sensitive   = true
+}
+
+variable "db_backup_retention_period" {
+  description = "Days to retain backups for"
+  type        = number
+  default     = 7
+}
+
+variable "db_deletion_protection" {
+  description = "Enable deletion protection for RDS instance"
+  type        = bool
+  default     = false
+}
+
+variable "db_skip_final_snapshot" {
+  description = "Skip final snapshot when deleting RDS instance"
+  type        = bool
+  default     = true
 }

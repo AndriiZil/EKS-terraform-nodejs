@@ -26,7 +26,7 @@ npm start
 
 ### Build the image
 ```bash
-  docker build --platform linux/amd64 -t lumino-backend .
+  docker build --no-cache --platform linux/amd64 -t lumino-backend .
 ```
 
 ### Run locally
@@ -54,14 +54,12 @@ curl http://localhost:8080/api/status
   docker push 081578102896.dkr.ecr.us-east-1.amazonaws.com/lumino-backend:latest
 ```
 
-## Kubernetes Deployment
+# Update Deployment
+```bash
+  kubectl rollout restart deployment lumino-backend
+```
 
-The app is designed to work with Kubernetes health checks:
-- **Liveness Probe**: `GET /health` 
-- **Readiness Probe**: `GET /ready`
-- **Port**: 8080
-
-## Environment Variables
-
-- `PORT` - Server port (default: 8080)
-- `NODE_ENV` - Environment (development/production) 
+# Check environment variables
+```bash
+  kubectl exec -it deployment/lumino-backend -- env | grep POSTGRES
+```

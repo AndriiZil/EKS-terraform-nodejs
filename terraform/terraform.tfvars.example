@@ -15,3 +15,10 @@ ecr_repositories = [
   "worker",
   "frontend"
 ] 
+
+# Database configuration
+db_password = "your-secure-database-password-here"
+db_instance_class = "db.t3.micro"
+db_allocated_storage = 20
+db_name = "appdb"
+db_username = "dbadmin" 
