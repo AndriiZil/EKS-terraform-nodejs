@@ -39,6 +39,10 @@
 
 ```bash
   kubectl get pods
+
   kubectl exec -it lumino-backend-55449475cc-xp2vl -- /bin/sh
+
   nc -zv my-eks-cluster-db.c03b3gbav8a4.us-east-1.rds.amazonaws.com 5432
+
+  nc -zv $POSTGRES_HOST $POSTGRES_PORT
 ```
