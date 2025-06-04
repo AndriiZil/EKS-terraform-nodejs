@@ -34,3 +34,11 @@
   # Apply the secret
   kubectl apply -f k8s/postgres-secret.yaml
 ```
+
+# PostgreSQL debugging
+
+```bash
+  kubectl get pods
+  kubectl exec -it lumino-backend-55449475cc-xp2vl -- /bin/sh
+  nc -zv my-eks-cluster-db.c03b3gbav8a4.us-east-1.rds.amazonaws.com 5432
+```
